@@ -111,7 +111,7 @@ class MP(ProofStep): # A, A -> B / B
     self.position = 0
 
   def __repr__(self):
-    return str(self.position) + "\t" + str(self.node) + "\tMP " + str(self.implication.position) + ", " + str(self.antecedent.position)
+    return str(self.position) + "\t" + str(self.node) + "\t" + str(self.implication.position) + "," + str(self.antecedent.position)
 
 
 class Member(ContextFree):
@@ -192,9 +192,9 @@ def hilbert(context : [Node], prop : Node):
     return transform(newContext, proof)
 
   # FINALLY
-  print(str(context) + " ⊢ X")
-  print(str(context) + " ⊢ (X>" + str(prop) + ")")
-  print("X?", "")
+  print("<<" + str(context) + " ⊢ X")
+  print("<<" + str(context) + " ⊢ (X>" + str(prop) + ")")
+  print("X?", end=' ')
   x = parse(input())
   p1 = hilbert(context, x)
   if DEBUG: print(">>: " + str(context) + " ⊢ " + str(p1))
@@ -265,7 +265,10 @@ def serialize(proof : ProofStep):
 proof = hilbert([], parse(sys.argv[1]))
 if DEBUG: print(">>: ⊢ " + str(proof))
 proofSequence = serialize(proof)
+for i in range(len(proofSequence)):
+  proofSequence[i].position = len(proofSequence) - i
 for p in proofSequence:
-  print(str(p.context) + " ⊢ " + str(p))
+  print(str(p))
+  # print(str(p.context) + " ⊢ " + str(p))
 # except:
   # print("reject")
