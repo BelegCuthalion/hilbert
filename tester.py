@@ -89,6 +89,7 @@ def check(proof):
   if pk.comp() and pk.left == pj and pk.right == conclusion:
     return check(proof[:k]) and check(proof[:j])
   else:
+    print("ERROR:", len(proof), str(pk), str(pj), str(conclusion), "MP", str(k), str(j))
     return False
   
   
