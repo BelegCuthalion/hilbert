@@ -3,7 +3,7 @@
 import sys
 import copy
 
-DEBUG = False
+DEBUG = True
 
 atoms = ['p', 'q', 'r', 's', 'a', 'b', 'c', 'd']
 
@@ -95,6 +95,11 @@ class A2(ContextFree): # (a -> (b -> c)) -> ((a -> b) -> (a -> c))
   def __repr__(self):
     return str(self.position) + "\t" + str(self.node) + "\tA2"
 
+class A3(ContextFree): # (((a -> b) -> a) -> a)
+  def __init__(self, context : [Node], a : Node, b : Node, c : Node):
+    self.node = Node(Node(Node(a, b), a), a)
+    self.context = context
+    self.position = 0
 
 class MP(ProofStep): # A, A -> B / B
   def __init__(self, context : [Node], implication : ProofStep, antecedent : ProofStep):
@@ -154,6 +159,16 @@ def isA2(prop : Node):
           prop.left.left == prop.right.left.left and
           prop.left.right.left == prop.right.left.right and
           prop.left.right.right == prop.right.right.right)
+
+
+def isA3(prop : Node): # (((a -> b) -> a) -> a)
+  return (
+    prop.comp() and
+    prop.left.comp() and
+    prop.left.left.comp() and
+    prop.right == prop.left.right and
+    prop.right == prop.left.left.left
+  )
 
 
 def findImplication(context : [Node], prop : Node):
