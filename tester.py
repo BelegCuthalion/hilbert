@@ -98,6 +98,9 @@ p = [l.split() for l in open(sys.argv[1]).read().splitlines()]
 
 proof = [None] * len(p)
 for x in p:
-  proof[int(x[0])-1] = x[1:]
+  if(len(proof) < int(x[0])):
+    print("You have an extra line! " + int(x[0]))
+  else:
+    proof[int(x[0])-1] = x[1:]
 
 print(check(proof))
