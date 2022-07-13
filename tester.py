@@ -94,7 +94,7 @@ def check(proof):
   
   
 
-p = [l.split() for l in open(sys.argv[1]).read().splitlines()]
+p = [l.split() for l in open(sys.argv[1]).read().splitlines() if l != '']
 
 proof = [None] * len(p)
 for x in p:
